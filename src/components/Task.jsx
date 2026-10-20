@@ -1,12 +1,22 @@
 import { useState } from "react";
+import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
+import PropTypes from "prop-types";
 
 function Task({ task, toggleTask, deleteTask, updateTask }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editedDescription, setEditedDescription] = useState(task.description);
 
+  const timeAgo = formatDistanceToNow(task.createdAt, {
+    addSuffix: true,
+    locale: ru,
+  });
+
   function handleKeyDown(event) {
     if (event.key === "Enter") {
-      updateTask(task.id, editedDescription);
+      if (editedDescription.trim() === "") return;
+
+      updateTask(task.id, editedDescription.trim());
       setIsEditing(false);
     }
 
@@ -42,6 +52,7 @@ function Task({ task, toggleTask, deleteTask, updateTask }) {
 
         <label>
           <span className="description">{task.description}</span>
+          <span className="created-at"> создано {timeAgo}</span>
         </label>
 
         <button
@@ -62,5 +73,17 @@ function Task({ task, toggleTask, deleteTask, updateTask }) {
     </li>
   );
 }
+
+Task.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    description: PropTypes.string.isRequired,
+    completed: PropTypes.bool.isRequired,
+    createdAt: PropTypes.instanceOf(Date).isRequired,
+  }).isRequired,
+  toggleTask: PropTypes.func.isRequired,
+  deleteTask: PropTypes.func.isRequired,
+  updateTask: PropTypes.func.isRequired,
+};
 
 export default Task;

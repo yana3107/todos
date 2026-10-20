@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 function NewTaskForm({ addTask }) {
   const [value, setValue] = useState("");
 
@@ -10,6 +11,7 @@ function NewTaskForm({ addTask }) {
     addTask(value);
     setValue("");
   };
+
   return (
     <header className="header">
       <h1>todos</h1>
@@ -25,5 +27,8 @@ function NewTaskForm({ addTask }) {
     </header>
   );
 }
+NewTaskForm.propTypes = {
+  addTask: PropTypes.func,
+};
 
 export default NewTaskForm;

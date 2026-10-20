@@ -1,5 +1,5 @@
 import TasksFilter from "./TasksFilter.jsx";
-
+import PropTypes from "prop-types";
 function Footer({ filter, setFilter, activeTasksCount, clearCompleted }) {
   return (
     <footer className="footer">
@@ -13,5 +13,10 @@ function Footer({ filter, setFilter, activeTasksCount, clearCompleted }) {
     </footer>
   );
 }
-
+Footer.propTypes = {
+  filter: PropTypes.string.isRequired,
+  setFilter: PropTypes.func.isRequired,
+  activeTasksCount: PropTypes.number.isRequired,
+  clearCompleted: PropTypes.func.isRequired,
+};
 export default Footer;
